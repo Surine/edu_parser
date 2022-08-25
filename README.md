@@ -29,11 +29,8 @@ DOM解析支持下面两种方式：
    - parse.js: 解析主文件，主函数`function parser(){}`
    - parse_config.json: 用于客户端解析具体的信息
    - xxx.html: 用于Code Reviewer核对和检查解析器的准确性，且存档。注意抹掉隐私信息
-3. 当我们有了这三个文件之后就可以进入coding状态了，下面会具体讲解每一个文件的详细内容和含义，会以天津科技大学（URP教务为例）
+3. 当我们有了这三个文件之后就可以进入coding状态了，coding及测试指南请参考：https://www.yuque.com/hysteria/og4g68/yky3i4
 
-#### 测试
-- 开发环境测试
-- 生产环境测试
 
 #### PR
 当您准备好了您的代码，可以通过github发起PR，我会尽快处理的PR请求。
