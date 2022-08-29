@@ -27,7 +27,7 @@ function parser() {
       }
     }
   }
-  console.log(result)
+  return result;
 }
 
 function parseWeek(str) {
