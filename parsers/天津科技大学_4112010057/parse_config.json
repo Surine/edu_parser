@@ -1,0 +1,7 @@
+{
+  "jwUrl": "http://jw.tust.edu.cn/",
+  "author": "Surine",
+  "backup": [
+    "../new_urp/parse.js"
+  ]
+}
