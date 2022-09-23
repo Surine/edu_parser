@@ -11,8 +11,7 @@ function parser() {
       let reg = /^\s+$/g
       if (reg.test(text)) continue
 
-      let infos = cell.innerText.replaceAll(/[\r\n]/g, ' ').split(' ')
-      // console.log(infos)
+      let infos = cell.innerText.split(/[\r\n ]/g)
       for (let n = 0; n < parseInt(infos.length / 6); n++) {
         let course = {
           name: infos[0 + 6 * n].replaceAll(/\s/g, ''),
@@ -27,24 +26,24 @@ function parser() {
       }
     }
   }
-  return result;
+  return result
 }
 
 function parseWeek(str) {
-  let result = ''
+  let result = []
   let nums = str.match(/(\S*)周/)[1].split('-')
   let sigle = str.indexOf('单') > -1
   let double = str.indexOf('双') > -1
   for (let index = parseInt(nums[0]); index < parseInt(nums[1]) + 1; index++) {
-    if (sigle && index % 2 == 1) {
-      result += index + ','
-    } else if (double && index % 2 == 0) {
-      result += index + ','
-    } else if (!sigle && !double) {
-      result += index + ','
+    if (
+      (sigle && index % 2 == 1) ||
+      (double && index % 2 == 0) ||
+      (!sigle && !double)
+    ) {
+      result.push(index)
     }
   }
-  return result.substring(0, result.length - 1)
+  return result.toString()
 }
 
 function parseStart(str) {
