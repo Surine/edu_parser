@@ -10,7 +10,7 @@ function parser() {
       // 如果是空白则代表这个格子没课不进行解析
       if (/^\s+$/g.test(text)) continue
 
-      let infos = text.split(/[\r\n ]+/g).map(item=>item.trim())
+      let infos = text.split(/[\r\n ]+/g).map(item => item.trim())
       for (let n = 0; n < parseInt(infos.length / 6); n++) {
         let section = parseSection(infos[2 + 6 * n])
         let course = {
