@@ -7,19 +7,19 @@ function parser() {
     for (let m = 2; m < row.cells.length; m++) {
       let cell = row.cells[m]
       let text = cell.innerText
-      // 去除空白
-      let reg = /^\s+$/g
-      if (reg.test(text)) continue
+      // 如果是空白则代表这个格子没课不进行解析
+      if (/^\s+$/g.test(text)) continue
 
-      let infos = cell.innerText.split(/[\r\n ]/g)
+      let infos = text.split(/[\r\n ]+/g).map(item => item.trim())
       for (let n = 0; n < parseInt(infos.length / 6); n++) {
+        let section = parseSection(infos[2 + 6 * n])
         let course = {
-          name: infos[0 + 6 * n].replaceAll(/\s/g, ''),
+          name: infos[0 + 6 * n],
           position: infos[4 + 6 * n] + infos[5 + 6 * n],
           teacher: infos[3 + 6 * n],
           day: m - 1,
-          sectionStart: parseStart(infos[2 + 6 * n]),
-          sectionContinue: parseContinue(infos[2 + 6 * n]),
+          sectionStart: section.start,
+          sectionContinue: section.continue,
           week: parseWeek(infos[1 + 6 * n]),
         }
         result.push(course)
@@ -31,10 +31,10 @@ function parser() {
 
 function parseWeek(str) {
   let result = []
-  let nums = str.match(/(\S*)周/)[1].split('-')
-  let sigle = str.indexOf('单') > -1
-  let double = str.indexOf('双') > -1
-  for (let index = parseInt(nums[0]); index < parseInt(nums[1]) + 1; index++) {
+  let [start, end] = str.match(/\d+/g).map(item => parseInt(item))
+  let sigle = /\(单\)/.test(str)
+  let double = /\(双\)/.test(str)
+  for (let index = start; index <= end; index++) {
     if (
       (sigle && index % 2 == 1) ||
       (double && index % 2 == 0) ||
@@ -46,10 +46,7 @@ function parseWeek(str) {
   return result.toString()
 }
 
-function parseStart(str) {
-  return parseInt(str.match(/第(\S*)节/)[1].split('-')[0])
-}
-
-function parseContinue(str) {
-  return parseInt(str.match(/第(\S*)节/)[1].split('-')[1]) - parseStart(str) + 1
+function parseSection(str) {
+  let [start, end] = str.match(/\d+/g).map(item => parseInt(item))
+  return { start, end, continue: end - start + 1 }
 }
